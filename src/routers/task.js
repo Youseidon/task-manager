@@ -59,7 +59,11 @@ router.patch('/tasks/:id', async(req, res) => {
         if (!isAllowedOperation) {
             throw new Error('Invalid update operation')
         }
-        const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const task = await Task.findById(req.params.id);
+        updates.forEach(element => task[element] = req.body[element]);
+
+        await task.save();
+        // const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!task) {
             res.status(404).send();
         }
