@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const validator = require("validator")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Task = require('./../models/task')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -50,6 +51,12 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
 //Creating a method which is accessablel from router
 userSchema.methods.generateAuthToken = async function() {
     const user = this;
@@ -57,6 +64,15 @@ userSchema.methods.generateAuthToken = async function() {
     user.tokens = user.tokens.concat({ token });
     await user.save()
     return token
+}
+userSchema.methods.toJSON = function() {
+    const user = this;
+    const userObject = user.toObject();
+    // userObject = { _id: userObject['_id'], age: userObject['age'], name: userObject['name'], email: userObject['email'] }
+
+    delete userObject.password;
+    delete userObject.tokens;
+    return userObject;
 }
 
 //Create a function called findByCredentials
@@ -80,6 +96,11 @@ userSchema.pre('save', async function(next) {
         user.password = await bcrypt.hash(user.password, 8)
     }
 
+    next()
+})
+userSchema.pre('remove', async function(next) {
+    const user = this;
+    await Task.deleteMany({ owner: user._id })
     next()
 })
 

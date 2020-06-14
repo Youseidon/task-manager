@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const validator = require("validator")
+const { ObjectID } = mongoose.Schema.Types
 
 const taskSchema = new mongoose.Schema({
     description: {
@@ -11,6 +12,11 @@ const taskSchema = new mongoose.Schema({
     completed: {
         type: Boolean,
         default: false
+    },
+    owner: {
+        type: ObjectID,
+        require: true,
+        ref: 'User'
     }
 })
 
