@@ -18,16 +18,18 @@ const taskSchema = new mongoose.Schema({
         require: true,
         ref: 'User'
     }
+}, {
+    timestamps: true
 })
 
-taskSchema.pre('save', async function(next) {
-    const task = this
+// taskSchema.pre('save', async function(next) {
+//     const task = this
 
-    // if(task.isModified('password')){
+//     // if(task.isModified('password')){
 
-    // }
-    next()
-})
+//     // }
+//     next()
+// })
 
 const Task = mongoose.model('Task', taskSchema)
 
