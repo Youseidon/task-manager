@@ -8,10 +8,6 @@ const sendWelcomeEmail = (to, name) => {
         from: 'nou.yousef@gmail.com',
         subject: 'Welcome to Task Manager application',
         text: `welvome to the application ${name}. let me know how you get along with the app `
-    }).then((response) => {
-        return response
-    }).catch((e) => {
-        return e
     })
 }
 const sendCancelationEmail = (to, name) => {
@@ -20,10 +16,6 @@ const sendCancelationEmail = (to, name) => {
         from: 'nou.yousef@gmail.com',
         subject: 'Email Cancelation',
         text: `Dear ${name}, I hope you never regret your consumption cancelation. farewell`
-    }).then((response) => {
-        return response
-    }).catch((e) => {
-        return e
     })
 }
 

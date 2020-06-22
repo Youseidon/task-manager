@@ -51,7 +51,7 @@ router.get('/tasks/:id', auth, async(req, res) => {
         }
         res.status(302).send(task)
     } catch (e) {
-        res.status(302).send(e);
+        res.status(400).send(e);
     }
 })
 

@@ -27,6 +27,7 @@ router.post('/users', async(req, res) => {
         const token = await user.generateAuthToken();
         res.status(201).send({ user: user, token });
     } catch (e) {
+        console.log(e)
         res.status(400).send(e)
     }
 })
@@ -45,6 +46,7 @@ router.post('/users/me/avatar', auth, upload.single('upload'), async(req, res) =
     await req.user.save()
     res.send()
 }, (error, req, res, next) => {
+    console.log(error)
     res.status(400).send({ error: error.message })
 })
 router.delete('/users/me/avatar', auth, async(req, res) => {
@@ -74,7 +76,6 @@ router.post('/users/login', async(req, res) => {
         const token = await user.generateAuthToken();
         res.send({ user, token })
     } catch (e) {
-        console.log(e)
         res.status(400).send(e)
     }
 })
